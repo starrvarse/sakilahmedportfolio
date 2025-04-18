@@ -154,15 +154,17 @@ body {
   background-color: var(--bgOrange);
   width: fit-content;
   color: white;
-  padding: 0.3rem 2rem;  /* Reduced vertical padding from 0.5rem to 0.3rem */
+  padding: 0.3rem 0.8rem;  /* Further reduced horizontal padding to make button even thinner */
   box-shadow: 5px 5px 7px 0px #0000003f;
-  font-size: 16px;  /* Reduced font size from 18px to 16px */
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.5s;
   font-weight: 500;
-  border: solid 2px transparent;  /* Reduced border width from 3px to 2px */
+  border: solid 2px transparent;
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
 }
 
 .btn-pink::before {
@@ -618,7 +620,7 @@ body {
 
 #submit-btn{
   border:none;
-  font-size: 1.4rem;
+  font-size: 1rem;
   margin: 1rem 0;
 }
 
@@ -627,8 +629,8 @@ body {
 }
 
 .submit-icon{
-  padding:0 1rem;
-  font-size:1.5rem;
+  padding-right: 0.5rem;
+  font-size: 1.2rem;
 }
 
 /* Footer Styles */

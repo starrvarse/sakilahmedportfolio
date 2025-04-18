@@ -44,8 +44,8 @@ const ContactSection = () => {
             
             <div>
               <button type="submit" className="btn-pink" id="submit-btn">
-                Send Message
                 <FontAwesomeIcon icon={faPaperPlane} className="submit-icon" />
+                Send Message
               </button>
             </div>
           </form>
