@@ -4,9 +4,45 @@
 @tailwind utilities;
 
 :root {
+  /* Light Mode (Default) */
   --background: #ffffff;
   --foreground: #171717;
   --bgOrange: #e84949;
+  --section-bg: rgb(231,231,231);
+  --card-shadow: #1f1f1f;
+  --heading-color: #343d68;
+  --subheading-color: #343d68aa;
+  --footer-bg: #343d68;
+  --footer-text: #535c87;
+  --nav-text: black;
+  --faded-text: rgb(231,231,231);
+}
+
+[data-theme="dark"] {
+  --background: #121212;
+  --foreground: #f0f0f0;
+  --section-bg: #1e1e1e;
+  --card-shadow: #000000;
+  --heading-color: #e0e0e0;
+  --subheading-color: #ccccccaa;
+  --footer-bg: #1a1a2e;
+  --footer-text: #7a7a8c;
+  --nav-text: #f0f0f0;
+  --faded-text: #2a2a2a;
+}
+
+[data-theme="night"] {
+  --background: #0a0a1a;
+  --foreground: #e0e0ff;
+  --bgOrange: #ff6b6b;
+  --section-bg: #0f0f2d;
+  --card-shadow: #000000;
+  --heading-color: #c8c8ff;
+  --subheading-color: #aaaaffaa;
+  --footer-bg: #0f0f24;
+  --footer-text: #6b6b9e;
+  --nav-text: #e0e0ff;
+  --faded-text: #1a1a3a;
 }
 
 @theme inline {
@@ -23,10 +59,19 @@
   scroll-behavior: smooth;
 }
 
+/* System preference dark mode will apply the dark theme */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    --background: #121212;
+    --foreground: #f0f0f0;
+    --section-bg: #1e1e1e;
+    --card-shadow: #000000;
+    --heading-color: #e0e0e0;
+    --subheading-color: #ccccccaa;
+    --footer-bg: #1a1a2e;
+    --footer-text: #7a7a8c;
+    --nav-text: #f0f0f0;
+    --faded-text: #2a2a2a;
   }
 }
 
@@ -90,7 +135,7 @@ body {
 }
 
 .nav-items div a{
-  color:black;
+  color: var(--nav-text);
 }
 
 .nav-items div:hover{
@@ -113,8 +158,9 @@ body {
 .faded-text{
   position:absolute;
   user-select:none;
+  -webkit-user-select: none;
   font-size: 7em;
-  color:rgb(231,231,231);
+  color: var(--faded-text);
   bottom: -16%;
   left: -5%;
   font-weight: bold;
@@ -130,7 +176,7 @@ body {
 
 .hero-section-heading{
   font-size: 35px;
-  color: #343d68;
+  color: var(--heading-color);
   font-weight: 500;
 }
 
@@ -316,7 +362,7 @@ body {
 
 /* Project Section Styles */
 .project-section{
-  background-color: rgb(231,231,231);
+  background-color: var(--section-bg);
   margin-top:4rem;
 }
 
@@ -341,7 +387,7 @@ body {
   height:550px;
   background-size: cover;
   position:relative;
-  box-shadow:0px 0px 40px #1f1f1f;
+  box-shadow:0px 0px 40px var(--card-shadow);
 }
 
 .project-card::after{
@@ -362,7 +408,7 @@ body {
   left:0;
   right:0;
   bottom:0;
-  background: linear-gradient(45deg, #343d68, #343d68be, #343d687c);
+  background: linear-gradient(45deg, var(--heading-color), var(--heading-color)be, var(--heading-color)7c);
   transform:scaleX(0);
   transform-origin: left;
   transition: all 0.4s;
@@ -511,10 +557,11 @@ body {
   position:absolute;
   font-size:15em;
   font-style:bold;
-  color:rgb(231,231,231);
+  color: var(--faded-text);
   bottom:-34.5%;
   right:-25%;
   user-select:none;
+  -webkit-user-select: none;
   overflow-y:hidden;
 }
 
@@ -567,7 +614,7 @@ body {
 /* Contact Form Styles */
 .contactus-form-container{
   width:100%;
-  background-color: rgb(231,231,231);
+  background-color: var(--section-bg);
 }
 
 .contactus-heading{
@@ -578,7 +625,7 @@ body {
 
 .contactus-sub-heading{
   font-size:3rem;
-  color:#343d68aa;
+  color: var(--subheading-color);
   text-transform: capitalize;
 }
 
@@ -607,7 +654,7 @@ body {
   padding: 0 2rem;
   font-size:18px;
   border-radius: 5px;
-  box-shadow: 2px 2px 10px #1f1f1f;
+  box-shadow: 2px 2px 10px var(--card-shadow);
   font-weight:500;
   border:none;
   margin-top:27px;
@@ -637,7 +684,7 @@ body {
 footer{
   position:relative;
   margin-top:-1px;
-  background-color: #343d68;
+  background-color: var(--footer-bg);
   padding:5rem;
 }
 
@@ -653,8 +700,9 @@ footer{
   position:absolute;
   left:0;
   bottom:0;
-  color:#535c87;
+  color: var(--footer-text);
   user-select:none;
+  -webkit-user-select: none;
   font-size:5em;
 }
 
@@ -664,7 +712,7 @@ footer{
 }
 
 .link-wrapper div a{
-  color:white;
+  color: var(--foreground);
   text-decoration:none;
   transition:all 0.6s;
 }
