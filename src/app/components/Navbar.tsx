@@ -1,69 +1,133 @@
 "use client";
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import NextLink from 'next/link';
+import { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon, faStar } from '@fortawesome/free-solid-svg-icons';
+import { 
+  AppBar, 
+  Toolbar, 
+  Box, 
+  Typography, 
+  Button, 
+  IconButton, 
+  Container,
+  useTheme,
+  useMediaQuery
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { styled } from '@mui/material/styles';
+import { ThemeContext } from '@/app/providers';
+
+// Custom styled components
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  '&.active': {
+    backgroundColor: theme.palette.action.selected,
+  },
+}));
+
+const LogoText = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  fontWeight: 600,
+  fontSize: '1.5rem',
+}));
+
+const NavButton = styled(Button)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  color: theme.palette.text.primary,
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
 
 const Navbar = () => {
-  const [theme, setTheme] = useState('light');
+  const { mode, setMode } = useContext(ThemeContext);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const muiTheme = useTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
 
-  useEffect(() => {
-    // Check if user has a saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      // If no saved preference, use system preference
-      setTheme('dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  }, []);
-
-  const toggleTheme = (newTheme: string) => {
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
   return (
-    <div className="navbar">
-      <div className="logo-container">
-        <Image src="/images/userAsset/NavLogo.jpg" alt="Logo" width={80} height={80} className="logo" />
-        <div className="logo-text">akil Ahmed</div>
-      </div>
-      
-      <div className="nav-items">
-        <div><Link href="#projects">Projects</Link></div>
-        <div><Link href="#skills">Skills</Link></div>
-        <div><Link href="#contactme">Contact Me</Link></div>
-        <div className="theme-toggle">
-          <button 
-            onClick={() => toggleTheme('light')} 
-            className={`theme-btn ${theme === 'light' ? 'active' : ''}`}
-            title="Light Mode"
-          >
-            <FontAwesomeIcon icon={faSun} />
-          </button>
-          <button 
-            onClick={() => toggleTheme('dark')} 
-            className={`theme-btn ${theme === 'dark' ? 'active' : ''}`}
-            title="Dark Mode"
-          >
-            <FontAwesomeIcon icon={faMoon} />
-          </button>
-          <button 
-            onClick={() => toggleTheme('night')} 
-            className={`theme-btn ${theme === 'night' ? 'active' : ''}`}
-            title="Night Mode"
-          >
-            <FontAwesomeIcon icon={faStar} />
-          </button>
-        </div>
-      </div>
-    </div>
+    <AppBar position="static" color="default" elevation={1} sx={{ backgroundColor: 'transparent' }}>
+      <Container maxWidth="lg">
+        <Toolbar sx={{ justifyContent: 'space-between', padding: '0.5rem 0' }}>
+          {/* Logo and Name */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ position: 'relative', width: 60, height: 60 }}>
+              <Image 
+                src="/images/userAsset/NavLogo.jpg" 
+                alt="Logo" 
+                width={60} 
+                height={60} 
+                style={{ borderRadius: '50%' }}
+              />
+            </Box>
+            <LogoText variant="h6">Sakil Ahmed</LogoText>
+          </Box>
+          
+          {/* Mobile menu button */}
+          {isMobile && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ display: { md: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          
+          {/* Desktop navigation */}
+          {!isMobile && (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <NextLink href="#projects" passHref style={{ textDecoration: 'none' }}>
+                <NavButton>Projects</NavButton>
+              </NextLink>
+              <NextLink href="#skills" passHref style={{ textDecoration: 'none' }}>
+                <NavButton>Skills</NavButton>
+              </NextLink>
+              <NextLink href="#contactme" passHref style={{ textDecoration: 'none' }}>
+                <NavButton>Contact Me</NavButton>
+              </NextLink>
+              
+              {/* Theme toggle buttons */}
+              <Box sx={{ display: 'flex', marginLeft: 2 }}>
+                <StyledIconButton 
+                  onClick={() => setMode('light')} 
+                  className={mode === 'light' ? 'active' : ''}
+                  title="Light Mode"
+                  size="small"
+                >
+                  <FontAwesomeIcon icon={faSun} />
+                </StyledIconButton>
+                <StyledIconButton 
+                  onClick={() => setMode('dark')} 
+                  className={mode === 'dark' ? 'active' : ''}
+                  title="Dark Mode"
+                  size="small"
+                >
+                  <FontAwesomeIcon icon={faMoon} />
+                </StyledIconButton>
+                <StyledIconButton 
+                  onClick={() => setMode('night')} 
+                  className={mode === 'night' ? 'active' : ''}
+                  title="Night Mode"
+                  size="small"
+                >
+                  <FontAwesomeIcon icon={faStar} />
+                </StyledIconButton>
+              </Box>
+            </Box>
+          )}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 
